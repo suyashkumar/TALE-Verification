@@ -24,16 +24,28 @@ import javax.swing.SwingUtilities;
 import TalVerification.TalRVDVerification;
 import java.awt.Font;
 import java.awt.Color;
-
+import javax.swing.JCheckBox;
+/*
+ * @author Suyash Kumar
+ * http://suyashkumar.com
+ * TAL RVD Verification
+ * 
+ * This class sets up the user interface and provides a front-end to the verification functions 
+ * found in TalRVDVerification.java .
+ * 
+ * Released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+ * http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US
+ */
 
 public class RVDVerify {
 
 	private JFrame frmTalDnaTo;
 	private JTextField textField;
 	private JTextPane textPane;
-	TalRVDVerification a;
+	TalRVDVerification verificationModule;
 	private JLabel lblcSuyashKumar;
 	private JLabel lblJustPasteYour;
+	private JCheckBox chckbxRc;
 
 	/**
 	 * Launch the application.
@@ -46,7 +58,7 @@ public class RVDVerify {
 					window.frmTalDnaTo.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				} 
 			}
 		});
 	}
@@ -66,7 +78,7 @@ public class RVDVerify {
 		
 		// Init DNA to RVD components
 		
-	    a=new TalRVDVerification();
+	    verificationModule=new TalRVDVerification();
 		
 		
 		frmTalDnaTo = new JFrame("DNA to RVD");
@@ -75,9 +87,9 @@ public class RVDVerify {
 		frmTalDnaTo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		frmTalDnaTo.getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblDnaToRvd = new JLabel("DNA To RVD");
@@ -124,12 +136,19 @@ public class RVDVerify {
 		textPane.setSize(new Dimension(10,10));
 		frmTalDnaTo.getContentPane().add(textPane, gbc_textPane);
 		
+		chckbxRc = new JCheckBox("Reverse Complement");
+		GridBagConstraints gbc_chckbxRc = new GridBagConstraints();
+		gbc_chckbxRc.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxRc.gridx = 7;
+		gbc_chckbxRc.gridy = 5;
+		frmTalDnaTo.getContentPane().add(chckbxRc, gbc_chckbxRc);
+		
 		lblcSuyashKumar = new JLabel("(c) Suyash Kumar");
 		lblcSuyashKumar.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
 		GridBagConstraints gbc_lblcSuyashKumar = new GridBagConstraints();
 		gbc_lblcSuyashKumar.insets = new Insets(0, 0, 0, 5);
 		gbc_lblcSuyashKumar.gridx = 7;
-		gbc_lblcSuyashKumar.gridy = 5;
+		gbc_lblcSuyashKumar.gridy = 6;
 		frmTalDnaTo.getContentPane().add(lblcSuyashKumar, gbc_lblcSuyashKumar);
 		
 	
@@ -143,7 +162,13 @@ public class RVDVerify {
 		      public void mouseReleased(MouseEvent mouseEvent) {
 		        if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
 		          textPane.setText("");
-		          textPane.setText("RVD Sequence:\n"+a.resolveDNA(textField.getText()));
+		         
+		          if(chckbxRc.isSelected()){
+		           textPane.setText("RVD Sequence:\n"+verificationModule.resolveDNA(textField.getText(),true));
+		          }
+		          else{
+		           textPane.setText("RVD Sequence:\n"+verificationModule.resolveDNA(textField.getText(),false));
+		          }
 		        
 		        }
 		      }
